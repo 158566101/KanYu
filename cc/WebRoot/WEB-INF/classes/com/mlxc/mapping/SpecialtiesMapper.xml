@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlxc.mapper.SpecialtiesMapper" >
+  <resultMap id="BaseResultMap" type="com.mlxc.pojo.Specialties" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="minprice" property="minprice" jdbcType="DOUBLE" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="photo1" property="photo1" jdbcType="VARCHAR" />
+    <result column="photo2" property="photo2" jdbcType="VARCHAR" />
+    <result column="photo3" property="photo3" jdbcType="VARCHAR" />
+    <result column="photo4" property="photo4" jdbcType="VARCHAR" />
+    <result column="photo5" property="photo5" jdbcType="VARCHAR" />
+    <result column="manufacturer" property="manufacturer" jdbcType="VARCHAR" />
+    <result column="recommend" property="recommend" jdbcType="VARCHAR" />
+    <result column="specialtiesname" property="specialtiesname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, minprice, content, photo1, photo2, photo3, photo4, photo5, manufacturer, recommend, 
+    specialtiesname
+  </sql>
+  <!--  查询农特产列表 返回 id,图片，名称，价格 -->
+  <select id="selectSpecialtiesList" resultMap="BaseResultMap">
+  		select id,minprice,photo1,specialtiesname from specialties
+  </select>
+   <!--  查询农特产列表 返回 id,图片，名称，价格 -->
+  <select id="selectSpecialtiesList1" resultMap="BaseResultMap">
+  		select id, minprice, content, photo1, photo2, photo3, photo4, photo5, manufacturer, recommend,specialtiesname from specialties
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from specialties
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from specialties
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.mlxc.pojo.Specialties" >
+    insert into specialties
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="minprice != null" >
+        minprice,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="photo1 != null" >
+        photo1,
+      </if>
+      <if test="photo2 != null" >
+        photo2,
+      </if>
+      <if test="photo3 != null" >
+        photo3,
+      </if>
+      <if test="photo4 != null" >
+        photo4,
+      </if>
+      <if test="photo5 != null" >
+        photo5,
+      </if>
+      <if test="manufacturer != null" >
+        manufacturer,
+      </if>
+      <if test="recommend != null" >
+        recommend,
+      </if>
+      <if test="specialtiesname != null" >
+        specialtiesname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="minprice != null" >
+        #{minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="photo1 != null" >
+        #{photo1,jdbcType=VARCHAR},
+      </if>
+      <if test="photo2 != null" >
+        #{photo2,jdbcType=VARCHAR},
+      </if>
+      <if test="photo3 != null" >
+        #{photo3,jdbcType=VARCHAR},
+      </if>
+      <if test="photo4 != null" >
+        #{photo4,jdbcType=VARCHAR},
+      </if>
+      <if test="photo5 != null" >
+        #{photo5,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null" >
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="recommend != null" >
+        #{recommend,jdbcType=VARCHAR},
+      </if>
+      <if test="specialtiesname != null" >
+        #{specialtiesname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mlxc.pojo.Specialties" >
+    update specialties
+    <set >
+      <if test="minprice != null" >
+        minprice = #{minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="photo1 != null" >
+        photo1 = #{photo1,jdbcType=VARCHAR},
+      </if>
+      <if test="photo2 != null" >
+        photo2 = #{photo2,jdbcType=VARCHAR},
+      </if>
+      <if test="photo3 != null" >
+        photo3 = #{photo3,jdbcType=VARCHAR},
+      </if>
+      <if test="photo4 != null" >
+        photo4 = #{photo4,jdbcType=VARCHAR},
+      </if>
+      <if test="photo5 != null" >
+        photo5 = #{photo5,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null" >
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="recommend != null" >
+        recommend = #{recommend,jdbcType=VARCHAR},
+      </if>
+      <if test="specialtiesname != null" >
+        specialtiesname = #{specialtiesname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

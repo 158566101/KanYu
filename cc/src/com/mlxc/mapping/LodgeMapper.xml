@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlxc.mapper.LodgeMapper" >
+  <resultMap id="BaseResultMap" type="com.mlxc.pojo.Lodge" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="lodgename" property="lodgename" jdbcType="VARCHAR" />
+    <result column="minprice" property="minprice" jdbcType="DOUBLE" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="photo1" property="photo1" jdbcType="VARCHAR" />
+    <result column="photo2" property="photo2" jdbcType="VARCHAR" />
+    <result column="photo3" property="photo3" jdbcType="VARCHAR" />
+    <result column="photo4" property="photo4" jdbcType="VARCHAR" />
+    <result column="photo5" property="photo5" jdbcType="VARCHAR" />
+    <result column="manufacturer" property="manufacturer" jdbcType="VARCHAR" />
+    <result column="minprice1" property="minprice1" jdbcType="DOUBLE" />
+    <result column="recommend" property="recommend" jdbcType="VARCHAR" />
+    <result column="room" property="room" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, lodgename, minprice, content, photo1, photo2, photo3, photo4, photo5, manufacturer, 
+    minprice1, recommend, room
+  </sql>
+  
+  <!-- 查询民宿列表返回 id,价格，名称，图片 -->
+  <select id="selectLodgeList" resultMap="BaseResultMap" >
+  		select id,minprice,photo1,minprice1,lodgename from lodge
+  </select>
+    <!-- 查询民宿列表返回 id,价格，名称，图片 -->
+  <select id="selectLodgeList1" resultMap="BaseResultMap" >
+  		select id,lodgename,minprice,content,photo1,photo2,photo3,photo4,photo5,manufacturer,minprice1,recommend,room from lodge
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from lodge
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from lodge
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.mlxc.pojo.Lodge" >
+    insert into lodge
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="lodgename != null" >
+        lodgename,
+      </if>
+      <if test="minprice != null" >
+        minprice,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="photo1 != null" >
+        photo1,
+      </if>
+      <if test="photo2 != null" >
+        photo2,
+      </if>
+      <if test="photo3 != null" >
+        photo3,
+      </if>
+      <if test="photo4 != null" >
+        photo4,
+      </if>
+      <if test="photo5 != null" >
+        photo5,
+      </if>
+      <if test="manufacturer != null" >
+        manufacturer,
+      </if>
+      <if test="minprice1 != null" >
+        minprice1,
+      </if>
+      <if test="recommend != null" >
+        recommend,
+      </if>
+      <if test="room != null" >
+        room,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="lodgename != null" >
+        #{lodgename,jdbcType=VARCHAR},
+      </if>
+      <if test="minprice != null" >
+        #{minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="photo1 != null" >
+        #{photo1,jdbcType=VARCHAR},
+      </if>
+      <if test="photo2 != null" >
+        #{photo2,jdbcType=VARCHAR},
+      </if>
+      <if test="photo3 != null" >
+        #{photo3,jdbcType=VARCHAR},
+      </if>
+      <if test="photo4 != null" >
+        #{photo4,jdbcType=VARCHAR},
+      </if>
+      <if test="photo5 != null" >
+        #{photo5,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null" >
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="minprice1 != null" >
+        #{minprice1,jdbcType=DOUBLE},
+      </if>
+      <if test="recommend != null" >
+        #{recommend,jdbcType=VARCHAR},
+      </if>
+      <if test="room != null" >
+        #{room,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mlxc.pojo.Lodge" >
+    update lodge
+    <set >
+      <if test="lodgename != null" >
+        lodgename = #{lodgename,jdbcType=VARCHAR},
+      </if>
+      <if test="minprice != null" >
+        minprice = #{minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="photo1 != null" >
+        photo1 = #{photo1,jdbcType=VARCHAR},
+      </if>
+      <if test="photo2 != null" >
+        photo2 = #{photo2,jdbcType=VARCHAR},
+      </if>
+      <if test="photo3 != null" >
+        photo3 = #{photo3,jdbcType=VARCHAR},
+      </if>
+      <if test="photo4 != null" >
+        photo4 = #{photo4,jdbcType=VARCHAR},
+      </if>
+      <if test="photo5 != null" >
+        photo5 = #{photo5,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null" >
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="minprice1 != null" >
+        minprice1 = #{minprice1,jdbcType=DOUBLE},
+      </if>
+      <if test="recommend != null" >
+        recommend = #{recommend,jdbcType=VARCHAR},
+      </if>
+      <if test="room != null" >
+        room = #{room,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

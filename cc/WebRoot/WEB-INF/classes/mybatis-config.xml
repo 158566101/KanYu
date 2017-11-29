@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="lazyLoadingEnabled" value="false"></setting>
+		<!-- 自动映射:全部映射级别 -->
+		<setting name="autoMappingBehavior" value="FULL"></setting>
+	</settings>
+	<typeAliases>
+		<!-- <typeAlias alias="Emp" type="cn.jbit.mybatisdemo.entity.Emp"/> -->
+		<package name="com.mlxc.pojo"/>
+	</typeAliases>
+	<!-- <environments default="development">
+		<environment id="development">
+		<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+			<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+			<property name="url" value="jdbc:oracle:thin:@10.0.0.176:1521:orcl"/>
+			<property name="username" value="scott"/>
+			<property name="password" value="123456"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	-->
+	
+	<mappers>
+		<mapper resource="com/mlxc/mapping/FlagChecklistMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/GentryMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/GentryOrderMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/InformationMlxcMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/LodgeMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/LodgeOrderMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/MlxcUserMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/ServiceOrderMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/ServiceProductMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/SpecialtiesMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/SpecialtiesOrderMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/TicketMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/TicketOrderMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/InsureMlxcMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/MlxcUserpermissionMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/PublicinformationMlxcMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/GoodsMapper.xml"/>
+		<mapper resource="com/mlxc/mapping/LodgeCheckinMapper.xml"/>
+	</mappers> 
+</configuration>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlxc.mapper.LodgeCheckinMapper" >
+  <resultMap id="BaseResultMap" type="com.mlxc.pojo.LodgeCheckin" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type_checkin" property="typeCheckin" jdbcType="INTEGER" />
+    <result column="serviceroom" property="serviceroom" jdbcType="VARCHAR" />
+    <result column="roompassword" property="roompassword" jdbcType="VARCHAR" />
+    <result column="roomstate" property="roomstate" jdbcType="VARCHAR" />
+    <result column="name1" property="name1" jdbcType="VARCHAR" />
+    <result column="identification1" property="identification1" jdbcType="VARCHAR" />
+    <result column="telphone1" property="telphone1" jdbcType="VARCHAR" />
+    <result column="manufacturer" property="manufacturer" jdbcType="VARCHAR" />
+    <result column="begintime" property="begintime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type_checkin, serviceroom, roompassword, roomstate, name1, identification1, telphone1
+  </sql>
+  
+ <sql id="LodgeCheckin_Column_List" >
+    lc.id, lc.type_checkin, lc.serviceroom, lc.roompassword, lc.roomstate, lc.name1, lc.identification1, lc.telphone1
+    ,lo.begintime,l.manufacturer
+  </sql>
+  <!-- 根据订单id查询入住人信息 -->
+  <select id="selectLodgeCheckById" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+  		select  <include refid="Base_Column_List" />
+  		from  lodge_checkin where type_checkin=#{orderid}
+  </select>
+  
+  <!--查询公安咨询 入住时间降序 -->
+  <select id="selectLodgeCheckinList"   resultMap="BaseResultMap">
+  		select <include refid="LodgeCheckin_Column_List" /> 
+  		from lodge_checkin lc,lodge_order lo,lodge l where lo.id=lc.type_checkin and l.id=lo.type_flag  and lo.pay='1'
+  		<if test="begintime!=null and begintime!=''">
+  			 and lo.begintime>=#{begintime}
+  		</if>
+  		<if test="endtime!=null and endtime!=''">
+  				<![CDATA[ and lo.begintime<=#{endtime}]]>
+  		</if>
+  		<if test="name!=null and name!=''">
+  			and   lc.name1 like concat('%',#{name},'%')
+  		</if>
+  		order by lo.begintime desc
+  		<if test="page!=null">
+  			limit #{page.beginIndex},#{page.endIndex}
+  		</if>
+  </select>
+  <!--查询数量  -->
+  <select id="selectLodgeCheckinCount" resultType="java.lang.Integer">
+  		 select count(1)
+  		from lodge_checkin lc,lodge_order lo where lo.id=lc.type_checkin  and lo.pay='1'
+  		<if test="begintime!=null and begintime!=''">
+  			 and lo.begintime>=#{begintime}
+  		</if>
+  		<if test="endtime!=null and endtime!=''">
+  				<![CDATA[ and lo.begintime<=#{endtime}]]>
+  		</if>
+  		<if test="name!=null and name!=''">
+  			and   lc.name1 like concat('%',#{name},'%')
+  		</if>
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from lodge_checkin
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from lodge_checkin
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.mlxc.pojo.LodgeCheckin" >
+    insert into lodge_checkin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="typeCheckin != null" >
+        type_checkin,
+      </if>
+      <if test="serviceroom != null" >
+        serviceroom,
+      </if>
+      <if test="roompassword != null" >
+        roompassword,
+      </if>
+      <if test="roomstate != null" >
+        roomstate,
+      </if>
+      <if test="name1 != null" >
+        name1,
+      </if>
+      <if test="identification1 != null" >
+        identification1,
+      </if>
+      <if test="telphone1 != null" >
+        telphone1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeCheckin != null" >
+        #{typeCheckin,jdbcType=INTEGER},
+      </if>
+      <if test="serviceroom != null" >
+        #{serviceroom,jdbcType=VARCHAR},
+      </if>
+      <if test="roompassword != null" >
+        #{roompassword,jdbcType=VARCHAR},
+      </if>
+      <if test="roomstate != null" >
+        #{roomstate,jdbcType=VARCHAR},
+      </if>
+      <if test="name1 != null" >
+        #{name1,jdbcType=VARCHAR},
+      </if>
+      <if test="identification1 != null" >
+        #{identification1,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone1 != null" >
+        #{telphone1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mlxc.pojo.LodgeCheckin" >
+    update lodge_checkin
+    <set >
+      <if test="typeCheckin != null" >
+        type_checkin = #{typeCheckin,jdbcType=INTEGER},
+      </if>
+      <if test="serviceroom != null" >
+        serviceroom = #{serviceroom,jdbcType=VARCHAR},
+      </if>
+      <if test="roompassword != null" >
+        roompassword = #{roompassword,jdbcType=VARCHAR},
+      </if>
+      <if test="roomstate != null" >
+        roomstate = #{roomstate,jdbcType=VARCHAR},
+      </if>
+      <if test="name1 != null" >
+        name1 = #{name1,jdbcType=VARCHAR},
+      </if>
+      <if test="identification1 != null" >
+        identification1 = #{identification1,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone1 != null" >
+        telphone1 = #{telphone1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

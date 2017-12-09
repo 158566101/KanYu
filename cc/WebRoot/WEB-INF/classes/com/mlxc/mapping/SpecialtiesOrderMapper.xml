@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlxc.mapper.SpecialtiesOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.mlxc.pojo.SpecialtiesOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type_flag" property="typeFlag" jdbcType="INTEGER" />
+    <result column="indentName" property="indentname" jdbcType="VARCHAR" />
+    <result column="telphone" property="telphone" jdbcType="VARCHAR" />
+    <result column="audit" property="audit" jdbcType="VARCHAR" />
+    <result column="generateTime" property="generatetime" jdbcType="DATE" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="minprice" property="minprice" jdbcType="DOUBLE" />
+    <result column="pay" property="pay" jdbcType="VARCHAR" />
+    <result column="mode" property="mode" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="identification" property="identification" jdbcType="VARCHAR" />
+    <result column="specialtiesname" property="specialtiesname" jdbcType="VARCHAR" />
+    <result column="minpriceone" property="minpriceone" jdbcType="DOUBLE" />
+    <result column="manufacturer" property="manufacturer" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type_flag, indentName, telphone, audit, generateTime, quantity, minprice, pay, 
+    mode, address, identification
+  </sql>
+  
+  <sql id="SpecialtiesOrder_Column_List" >
+    o.id, o.type_flag, o.indentName, o.telphone, o.audit, o.generateTime, o.quantity, o.minprice, o.pay, 
+    o.mode, o.address, o.identification,s.specialtiesname,s.minprice as minpriceone,s.manufacturer
+  </sql>
+  <!-- 查询列表 -->
+  <select id="selectSpecialtiesOrderList" resultMap="BaseResultMap">
+  		select <include refid="SpecialtiesOrder_Column_List" /> from specialties_order o,specialties s
+  		where o.type_flag=s.id
+  		<if test="begintime!=null and begintime!=''">
+  			 and o.generateTime>=#{begintime}
+  		</if>
+  		<if test="endtime!=null and endtime!=''">
+  				<![CDATA[ and o.generateTime<=#{endtime}]]>
+  		</if>
+  		<if test="name!=null and name!=''">
+  			and   o.indentName like concat('%',#{name},'%')
+  		</if>
+  		order by generateTime desc
+  		<if test="page!=null">
+  			limit #{page.beginIndex},#{page.endIndex}
+  		</if>
+  </select>
+  <!-- 查询数量 -->
+    <select id="selectSpecialtiesCount" resultType="java.lang.Integer">
+    	select count(1) from specialties_order
+    	<where>
+    	 <if test="begintime!=null and begintime!=''">
+  			 and generateTime>=#{begintime}
+  		</if>
+  		<if test="endtime!=null and endtime!=''">
+  				<![CDATA[ and generateTime<=#{endtime}]]>
+  		</if>
+  		<if test="name!=null and name!=''">
+  			and   indentName like concat('%',#{name},'%')
+  		</if>
+  		</where>
+    </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from specialties_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from specialties_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.mlxc.pojo.SpecialtiesOrder" >
+    insert into specialties_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="typeFlag != null" >
+        type_flag,
+      </if>
+      <if test="indentname != null" >
+        indentName,
+      </if>
+      <if test="telphone != null" >
+        telphone,
+      </if>
+      <if test="audit != null" >
+        audit,
+      </if>
+      <if test="generatetime != null" >
+        generateTime,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="minprice != null" >
+        minprice,
+      </if>
+      <if test="pay != null" >
+        pay,
+      </if>
+      <if test="mode != null" >
+        mode,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="identification != null" >
+        identification,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeFlag != null" >
+        #{typeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="indentname != null" >
+        #{indentname,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null" >
+        #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="audit != null" >
+        #{audit,jdbcType=VARCHAR},
+      </if>
+      <if test="generatetime != null" >
+        #{generatetime,jdbcType=DATE},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="minprice != null" >
+        #{minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="pay != null" >
+        #{pay,jdbcType=VARCHAR},
+      </if>
+      <if test="mode != null" >
+        #{mode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        #{identification,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mlxc.pojo.SpecialtiesOrder" >
+    update specialties_order
+    <set >
+      <if test="typeFlag != null" >
+        type_flag = #{typeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="indentname != null" >
+        indentName = #{indentname,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null" >
+        telphone = #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="audit != null" >
+        audit = #{audit,jdbcType=VARCHAR},
+      </if>
+      <if test="generatetime != null" >
+        generateTime = #{generatetime,jdbcType=DATE},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="minprice != null" >
+        minprice = #{minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="pay != null" >
+        pay = #{pay,jdbcType=VARCHAR},
+      </if>
+      <if test="mode != null" >
+        mode = #{mode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        identification = #{identification,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

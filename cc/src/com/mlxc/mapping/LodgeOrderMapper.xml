@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mlxc.mapper.LodgeOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.mlxc.pojo.LodgeOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type_flag" property="typeFlag" jdbcType="INTEGER" />
+    <result column="serviceRoom" property="serviceroom" jdbcType="VARCHAR" />
+    <result column="indentName" property="indentname" jdbcType="VARCHAR" />
+    <result column="telphone" property="telphone" jdbcType="VARCHAR" />
+    <result column="audit" property="audit" jdbcType="VARCHAR" />
+    <result column="generateTime" property="generatetime" jdbcType="DATE" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="begintime" property="begintime" jdbcType="DATE" />
+    <result column="minprice" property="minprice" jdbcType="DOUBLE" />
+    <result column="pay" property="pay" jdbcType="VARCHAR" />
+    <result column="identification" property="identification" jdbcType="VARCHAR" />
+    <result column="endtime" property="endtime" jdbcType="DATE" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+     <association property="lodge" javaType="Lodge"></association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type_flag, serviceRoom, indentName, telphone, audit, generateTime, quantity, 
+    begintime, minprice, pay, identification, endtime, password
+  </sql>
+  
+   <sql id="Lodge_Column_List" >
+    lo.id, lo.type_flag, lo.serviceRoom, lo.indentName, lo.telphone, lo.audit, lo.generateTime,lo.quantity, 
+    lo.begintime, lo.minprice, lo.pay, lo.identification, lo.endtime, lo.password,l.room,l.manufacturer,l.lodgename
+  </sql>
+  <!--查询数量  -->
+  <select id="selectLodgeOrderCount" resultType="java.lang.Integer">
+  		select count(1) from lodge_order 
+  		<where>
+  		<if test="begintime!=null and begintime!=''">
+  			 and generateTime>=#{begintime}
+  		</if>
+  		<if test="endtime!=null">
+  			<if test="endtime!=''">
+  				<![CDATA[ and generateTime<=#{endtime}]]>
+  			</if>
+  		</if>
+  		<if test="name!=null and name!=''">
+  			and   indentName like concat('%',#{name},'%')
+  		</if>
+  		</where>
+  </select>
+  
+  
+  <select id="selectLodgeOrders" resultMap="BaseResultMap" >
+  		select <include refid="Lodge_Column_List" />
+  		from lodge_order lo,lodge l
+  		where lo.type_flag=l.id
+  		<if test="begintime!=null and begintime!=''">
+  			 and lo.generateTime>=#{begintime}
+  		</if>
+  		<if test="endtime!=null">
+  			<if test="endtime!=''">
+  				<![CDATA[ and lo.generateTime<=#{endtime}]]>
+  			</if>
+  		</if>
+  		<if test="name!=null and name!=''">
+  			and   lo.indentName like concat('%',#{name},'%')
+  		</if>
+  		order by generateTime desc
+  		<if test="page!=null">
+  			limit #{page.beginIndex},#{page.endIndex};
+  		</if>
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from lodge_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from lodge_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mlxc.pojo.LodgeOrder" >
+    insert into lodge_order (id, type_flag, serviceRoom, 
+      indentName, telphone, audit, 
+      generateTime, quantity, begintime, 
+      minprice, pay, identification, 
+      endtime, password)
+    values (#{id,jdbcType=INTEGER}, #{typeFlag,jdbcType=INTEGER}, #{serviceroom,jdbcType=VARCHAR}, 
+      #{indentname,jdbcType=VARCHAR}, #{telphone,jdbcType=VARCHAR}, #{audit,jdbcType=VARCHAR}, 
+      #{generatetime,jdbcType=DATE}, #{quantity,jdbcType=INTEGER}, #{begintime,jdbcType=DATE}, 
+      #{minprice,jdbcType=DOUBLE}, #{pay,jdbcType=VARCHAR}, #{identification,jdbcType=VARCHAR}, 
+      #{endtime,jdbcType=DATE}, #{password,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mlxc.pojo.LodgeOrder" >
+    insert into lodge_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="typeFlag != null" >
+        type_flag,
+      </if>
+      <if test="serviceroom != null" >
+        serviceRoom,
+      </if>
+      <if test="indentname != null" >
+        indentName,
+      </if>
+      <if test="telphone != null" >
+        telphone,
+      </if>
+      <if test="audit != null" >
+        audit,
+      </if>
+      <if test="generatetime != null" >
+        generateTime,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="begintime != null" >
+        begintime,
+      </if>
+      <if test="minprice != null" >
+        minprice,
+      </if>
+      <if test="pay != null" >
+        pay,
+      </if>
+      <if test="identification != null" >
+        identification,
+      </if>
+      <if test="endtime != null" >
+        endtime,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeFlag != null" >
+        #{typeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="serviceroom != null" >
+        #{serviceroom,jdbcType=VARCHAR},
+      </if>
+      <if test="indentname != null" >
+        #{indentname,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null" >
+        #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="audit != null" >
+        #{audit,jdbcType=VARCHAR},
+      </if>
+      <if test="generatetime != null" >
+        #{generatetime,jdbcType=DATE},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="begintime != null" >
+        #{begintime,jdbcType=DATE},
+      </if>
+      <if test="minprice != null" >
+        #{minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="pay != null" >
+        #{pay,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        #{identification,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=DATE},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mlxc.pojo.LodgeOrder" >
+    update lodge_order
+    <set >
+      <if test="typeFlag != null" >
+        type_flag = #{typeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="serviceroom != null" >
+        serviceRoom = #{serviceroom,jdbcType=VARCHAR},
+      </if>
+      <if test="indentname != null" >
+        indentName = #{indentname,jdbcType=VARCHAR},
+      </if>
+      <if test="telphone != null" >
+        telphone = #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="audit != null" >
+        audit = #{audit,jdbcType=VARCHAR},
+      </if>
+      <if test="generatetime != null" >
+        generateTime = #{generatetime,jdbcType=DATE},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="begintime != null" >
+        begintime = #{begintime,jdbcType=DATE},
+      </if>
+      <if test="minprice != null" >
+        minprice = #{minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="pay != null" >
+        pay = #{pay,jdbcType=VARCHAR},
+      </if>
+      <if test="identification != null" >
+        identification = #{identification,jdbcType=VARCHAR},
+      </if>
+      <if test="endtime != null" >
+        endtime = #{endtime,jdbcType=DATE},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mlxc.pojo.LodgeOrder" >
+    update lodge_order
+    set type_flag = #{typeFlag,jdbcType=INTEGER},
+      serviceRoom = #{serviceroom,jdbcType=VARCHAR},
+      indentName = #{indentname,jdbcType=VARCHAR},
+      telphone = #{telphone,jdbcType=VARCHAR},
+      audit = #{audit,jdbcType=VARCHAR},
+      generateTime = #{generatetime,jdbcType=DATE},
+      quantity = #{quantity,jdbcType=INTEGER},
+      begintime = #{begintime,jdbcType=DATE},
+      minprice = #{minprice,jdbcType=DOUBLE},
+      pay = #{pay,jdbcType=VARCHAR},
+      identification = #{identification,jdbcType=VARCHAR},
+      endtime = #{endtime,jdbcType=DATE},
+      password = #{password,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

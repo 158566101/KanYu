@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--静态资源文件  -->
+      <mvc:resources location="/" mapping="/**"></mvc:resources>
+    <!-- 扫描控制器,扫描指定位置的Controller,定义扫描的包,不是扫描包中所有文件(类) -->
+    <context:component-scan base-package="com.mlxc"/>
+    <!-- 启用注解
+    	和上一步结合使用:被MVC注解所修饰的类才会被扫描到
+     -->    
+    <mvc:annotation-driven/>
+    
+	<!--
+		处理响应结果,解析视图
+		/WEB-INF/jsp/  index  .jsp
+	         对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+		<!-- <property name="prefix" value="/WEB-INF/pages/"/> -->
+		<property name="prefix" value="/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+
+</beans>
